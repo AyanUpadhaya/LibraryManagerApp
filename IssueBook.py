@@ -1,17 +1,20 @@
 from tkinter import *
-from PIL import ImageTk,Image
 from tkinter import messagebox as ms
+from datedata import Date
 import sqlite3
+
+
 
 
 DATABASE = 'DB/library.db'
 check=[]
 status='Available'
 def issue():
+	date=Date()
 	bookname=book_name_entry.get()
 	bookcode=book_code_entry.get()
 	regnumber=reg_number_entry.get()
-	dateissued=date_issued_entry.get()
+	dateissued=date.current_date()
 	
 	def checkAvailable():
 		response=conn.execute("SELECT status FROM books WHERE book_code=('%s')"%(bookcode))
@@ -24,7 +27,7 @@ def issue():
 		cur.execute("INSERT INTO issuedbooks VALUES (?,?,?,?)",params2)
 		cur.execute("UPDATE books SET status='issued' WHERE book_code=('%s')"%(bookcode))
 		conn.commit()
-		ms.showinfo("Success",f"Book issued to {regnumber}")
+		ms.showinfo("Success",f"Book issued to {regnumber} and asked to submit by {date.submission_date}")
 		check.clear()
 	else:
 		ms.showinfo("Info","The Book is not Available")
@@ -34,7 +37,7 @@ def issue():
 
 def issueBook():
 
-	global book_name_entry,book_code_entry,reg_number_entry,date_issued_entry,conn, cur,root
+	global book_name_entry,book_code_entry,reg_number_entry,conn, cur,root
 
 	root=Tk()
 	root.title("Library Manager - Issue Book")
@@ -79,12 +82,12 @@ def issueBook():
 	reg_number_entry = Entry(labelFrame)
 	reg_number_entry.place(relx=0.3,rely=0.50, relwidth=0.62, relheight=0.08)
 
-	# Date issued
-	date_issued_label = Label(labelFrame,text="Date : ", bg='black', fg='white')
-	date_issued_label.place(relx=0.05,rely=0.65, relheight=0.08)
+	# # Date issued
+	# date_issued_label = Label(labelFrame,text="Date : ", bg='black', fg='white')
+	# date_issued_label.place(relx=0.05,rely=0.65, relheight=0.08)
 
-	date_issued_entry = Entry(labelFrame)
-	date_issued_entry.place(relx=0.3,rely=0.65, relwidth=0.62, relheight=0.08)
+	# date_issued_entry = Entry(labelFrame)
+	# date_issued_entry.place(relx=0.3,rely=0.65, relwidth=0.62, relheight=0.08)
 
 	#Submit Button
 	SubmitBtn = Button(root,text="SUBMIT",bg='#d1ccc0', fg='black',command=issue)

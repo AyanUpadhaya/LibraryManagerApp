@@ -1,16 +1,42 @@
 from tkinter import *
-from PIL import ImageTk,Image
 from tkinter import messagebox as ms
+from datedata import Date
 import sqlite3
 
 DATABASE = 'DB/library.db'
 check=[]
+datecheck=[]
 status='issued'
+fine=100
 def issue():
 	bookname=book_name_entry.get()
 	bookcode=book_code_entry.get()
 	regnumber=reg_number_entry.get()
 	datesubmitted=date_submitted_entry.get()
+
+	if '/' not in datesubmitted:
+		ms.showinfo("Error","Date entered wrong format")
+
+
+	def isOverDue():
+		# Format Date/Month/Year
+		overesponse=conn.execute("SELECT date_issued FROM issuedbooks WHERE book_code=('%s')"%(bookcode))
+		for data in overesponse:
+			datecheck.append(data[0])
+
+		previous=datecheck[0].split('/')[0]
+
+		remaining_date=int(previous)+6
+
+		submitDate=int(datesubmitted.split('/')[0])
+
+		if submitDate>remaining_date:
+			return True
+
+	if isOverDue():
+		params=(bookname,bookcode,regnumber,fine)
+		cur.execute("INSERT INTO overduefines VALUES(?,?,?,?);",params)
+
 	
 	def checkIssued():
 		response=conn.execute("SELECT status FROM books WHERE book_code=('%s')"%(bookcode))
@@ -79,7 +105,7 @@ def returnBook():
 	reg_number_entry.place(relx=0.3,rely=0.50, relwidth=0.62, relheight=0.08)
 
 	# Date issued
-	date_submitted_label = Label(labelFrame,text="Date : ", bg='black', fg='white')
+	date_submitted_label = Label(labelFrame,text="Date :(d/m/y) ", bg='black', fg='white')
 	date_submitted_label.place(relx=0.05,rely=0.65, relheight=0.08)
 
 	date_submitted_entry = Entry(labelFrame)

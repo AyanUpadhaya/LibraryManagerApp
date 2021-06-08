@@ -9,9 +9,9 @@ def delete():
 	bookid=book_id_entry.get()
 
 	try:
-		cur.execute("DELETE FROM books WHERE rowid=('%s')"%(bookid))
+		cur.execute("DELETE FROM overduefines WHERE rowid=('%s')"%(bookid))
 		conn.commit()
-		ms.showinfo('Success',"Entry Deleted Successfully!")
+		ms.showinfo('Success',"Overdue Entry Deleted Successfully!")
 	except:
 		ms.showinfo("Error","Unable to delete the entry!")
 
@@ -19,12 +19,12 @@ def delete():
 
 
 
-def deleteBook():
+def deloverdue():
 
 	global book_id_entry,conn, cur,root
 
 	root=Tk()
-	root.title("Library Manager - Dekete Book")
+	root.title("Library Manager - Delete Overdue")
 	root.geometry('600x500')
 
 	conn=sqlite3.connect(DATABASE)
@@ -37,7 +37,7 @@ def deleteBook():
 	#head frame
 	headingFrm=Frame(root,bg="#ffbb00",bd=5)
 	headingFrm.place(relx=0.2,rely=0.1, relwidth=0.6,relheight=0.16)
-	headLabel=Label(headingFrm,text="Delete Book",bg='black',fg='white',font=('Arial',15))
+	headLabel=Label(headingFrm,text="Delete Overdue",bg='black',fg='white',font=('Arial',15))
 	headLabel.place(relx=0,rely=0,relwidth=1,relheight=1)	
 
 	labelFrame = Frame(root,bg='black',width=580)
@@ -45,7 +45,7 @@ def deleteBook():
 
 
 	# Book code
-	book_id = Label(labelFrame,text="Book ID : ", bg='black', fg='white')
+	book_id = Label(labelFrame,text="Overdue Book ID : ", bg='black', fg='white')
 	book_id.place(relx=0.05,rely=0.2, relheight=0.08)
 
 	book_id_entry = Entry(labelFrame)
