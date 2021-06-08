@@ -7,4 +7,6 @@ Version 2 update report:
 
 To notify student when to submit the book back to libray I created a class call Date in datedata.py file and imported that in IssueBook.py.
 Created date instance to capture the current date.So whenever library issues an available book to student the program will automatically set 
-current date as the issued date of the book and student will be given six days time to return the book back to library. Not only this but also if a student fails to return the book in submission date he will be charged will 100 currency as a fine. This is happening because program will check if the student has crossed submission date by comparing submitting date(when submitting back to library-have to enter this manually) with book's issuing date. Another feature added delete overdue if student makes payment of his fine we can delete that from database.  
+current date as the issued date of the book and student will be given six days time to return the book back to library. Not only this but also 
+if a student fails to return the book in submission date he will be charged will 100 currency as a fine. This is happening because program will check 
+if the student has crossed submission date by comparing submitting date(when submitting back to library-have to enter this manually) with book's issuing date. Another feature added delete overdue if student makes payment of his fine we can delete that from database.  
